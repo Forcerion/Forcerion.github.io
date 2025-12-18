@@ -11,77 +11,120 @@ const competences = ["PHP", "HTML", "CSS", "MySQL", "Git/GitHub", "VS Code"];
 
 const projets = [
   {
-    titre: "Projet 1 — Générateur de mot de passe",
-    desc: "Application permettant de générer des mots de passe sécurisés automatiquement.",
-    lien: "https://github.com/Forcerion/password-generator"
+    titre: "Générateur de mot de passe",
+    desc: "Application qui génère des mots de passe sécurisés automatiquement.",
+    github: "https://github.com/Forcerion/password-generator",
+    demo: "https://password-generator-lake-psi.vercel.app"
   },
   {
-    titre: "Projet 2 — Connect Four Game",
+    titre: "Connect Four Game",
     desc: "Jeu Puissance 4 avec gestion des tours et détection des victoires.",
-    lien: "https://github.com/Forcerion/connect-four-game"
+    github: "https://github.com/Forcerion/connect-four-game",
+    demo: "https://connect-four-game-blue.vercel.app"
   },
   {
-    titre: "Projet 3 — Mini CRUD (à venir)",
-    desc: "Application web permettant d’ajouter, afficher, modifier et supprimer des données.",
-    lien: "#"
+    titre: "Mini CRUD (à venir)",
+    desc: "Application web pour ajouter, afficher, modifier et supprimer des données.",
+    github: "#",
+    demo: "#"
   }
 ];
 
-document.getElementById("year").textContent = "Portfolio • " + new Date().getFullYear();
-document.getElementById("name").textContent = prenom + " " + nom;
-document.getElementById("subtitle").textContent = metier + " — " + accroche;
+function setText(id, text) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = text;
+}
 
-document.getElementById("github").href = github;
-document.getElementById("github2").href = github;
-document.getElementById("github2").textContent = github;
+function setLink(id, href, text) {
+  const el = document.getElementById(id);
+  if (el) {
+    el.href = href;
+    if (text) el.textContent = text;
+  }
+}
 
-document.getElementById("email").textContent = email;
-document.getElementById("email2").textContent = email;
+setText("year", "Portfolio • " + new Date().getFullYear());
+setText("name", prenom + " " + nom);
+setText("subtitle", metier + " — " + accroche);
 
-document.getElementById("linkedin").href = linkedin;
-document.getElementById("linkedin2").href = linkedin;
-document.getElementById("linkedin2").textContent = linkedin;
+setLink("github", github);
+setText("email", email);
+setLink("linkedin", linkedin);
 
-document.getElementById("about").textContent =
-  "Je m'appelle " + prenom + ", je débute en développement web et je progresse en construisant des projets concrets.";
+setText(
+  "about",
+  "J’ai 17 ans et je suis en 2ème année à Eden School (école digitale et numérique). " +
+  "Ça fait environ 1 an que j’ai commencé à coder. " +
+  "Je progresse en construisant des projets concrets et en publiant mon travail sur GitHub."
+);
 
-document.getElementById("githubBtn").href = github;
+setText("email2", email);
+setLink("github2", github, github);
+setLink("linkedin2", linkedin, linkedin);
+
+setText("footer", "© " + new Date().getFullYear() + " " + prenom + " " + nom);
+
+const githubBtn = document.getElementById("githubBtn");
+if (githubBtn) githubBtn.href = github;
 
 const skillsList = document.getElementById("skills");
-competences.forEach(skill => {
-  const li = document.createElement("li");
-  li.textContent = skill;
-  skillsList.appendChild(li);
-});
+if (skillsList) {
+  competences.forEach(skill => {
+    const li = document.createElement("li");
+    li.textContent = skill;
+    skillsList.appendChild(li);
+  });
+}
 
 const projectsDiv = document.getElementById("projects");
-projets.forEach(p => {
-  const div = document.createElement("div");
-  div.className = "project";
+if (projectsDiv) {
+  projets.forEach(p => {
+    const div = document.createElement("div");
+    div.className = "project";
 
-  const h3 = document.createElement("h3");
-  h3.textContent = p.titre;
+    const h3 = document.createElement("h3");
+    h3.textContent = p.titre;
 
-  const desc = document.createElement("p");
-  desc.textContent = p.desc;
+    const desc = document.createElement("p");
+    desc.textContent = p.desc;
 
-  div.appendChild(h3);
-  div.appendChild(desc);
+    div.appendChild(h3);
+    div.appendChild(desc);
 
-  if (p.lien !== "#") {
-    const link = document.createElement("a");
-    link.href = p.lien;
-    link.target = "_blank";
-    link.textContent = "Voir le projet →";
-    div.appendChild(link);
-  } else {
-    const span = document.createElement("p");
-    span.textContent = "Projet en cours";
-    div.appendChild(span);
-  }
+    const links = document.createElement("div");
+    links.className = "project-links";
 
-  projectsDiv.appendChild(div);
-});
+    if (p.github !== "#") {
+      const aGithub = document.createElement("a");
+      aGithub.href = p.github;
+      aGithub.target = "_blank";
+      aGithub.textContent = "GitHub";
+      links.appendChild(aGithub);
+    } else {
+      const g = document.createElement("span");
+      g.className = "muted";
+      g.textContent = "GitHub à venir";
+      links.appendChild(g);
+    }
 
-document.getElementById("footer").textContent =
-  "© " + new Date().getFullYear() + " " + prenom + " " + nom;
+    const sep = document.createElement("span");
+    sep.textContent = " • ";
+    links.appendChild(sep);
+
+    if (p.demo !== "#") {
+      const aDemo = document.createElement("a");
+      aDemo.href = p.demo;
+      aDemo.target = "_blank";
+      aDemo.textContent = "Voir le site";
+      links.appendChild(aDemo);
+    } else {
+      const d = document.createElement("span");
+      d.className = "muted";
+      d.textContent = "Démo à venir";
+      links.appendChild(d);
+    }
+
+    div.appendChild(links);
+    projectsDiv.appendChild(div);
+  });
+}
